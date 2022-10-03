@@ -20,6 +20,6 @@ Route::get('/', function () {
 
 Route::get('/home', function(){
     return view('homePage',[
-        'products' => Product::all()
+        'products' => Product::with('productPrices')->get()
     ]);
 });

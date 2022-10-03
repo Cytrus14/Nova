@@ -6,15 +6,16 @@ use Illuminate\View\Component;
 
 class PaginatedProductList extends Component
 {   
-    public $products= array(1,2,3);
+    public $products;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($products)
     {
         //
+        $this->products = $products;
     }
 
     /**

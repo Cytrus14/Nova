@@ -12,7 +12,7 @@
             @endforeach
         </table>
     </div>
-    <div class="flex justify-center">
+    <!-- <div class="flex justify-center">
         <ul>
             <li class="px-6 py-2">
             <x-product-card
@@ -38,9 +38,8 @@
         </li>
 
         </ul>
-    </div>
-    <x-paginated-product-list>
-        test123
+    </div> -->
+    <x-paginated-product-list :products="$products">
     </x-paginated-product-list>
     <x-add-product></x-add-product>
 </body>

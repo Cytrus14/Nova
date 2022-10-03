@@ -3,13 +3,12 @@
     <ul class="grow">
         @foreach ($products as $product)
         <li class="px-6 py-2">
-            {{ $product }}
             <x-product-card
-        name="testName"
-        price="100.00"
+        name="{{$product['name']}}"
+        price="{{ $product->getCurrentPriceAttribute() }}"
         :rating="10"
-        :isInStock="false"
-        description="test"
+        :isInStock="true"
+        description="{{ $product['description']}}"
         ></x-product-card>
         </li>
         @endforeach

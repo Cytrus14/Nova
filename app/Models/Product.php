@@ -30,4 +30,9 @@ class Product extends Model
     public function orders() {
         return $this->belongsToMany(Order::class);
     }
+    // Get the current product price (the most recent one)
+    public function getCurrentPriceAttribute() {
+        $price = $this->productPrices->sortByDesc('validFrom')->first();
+        return $price->priceEuros . '.' . $price->priceCents;
+    }
 }

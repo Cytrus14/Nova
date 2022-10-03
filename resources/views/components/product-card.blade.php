@@ -1,6 +1,6 @@
 <div class="flex font-sans rounded-lg bg-white shadow-lg">
   <div class="flex-none w-48 relative">
-    <img src="https://mdbootstrap.com/wp-content/uploads/2020/06/vertical.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+    <img src="http://127.0.0.1:8000/storage/product1.png" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
   </div>
   <form class="flex-auto p-6">
     <div class="flex flex-wrap">
