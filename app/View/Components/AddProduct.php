@@ -2,10 +2,12 @@
 
 namespace App\View\Components;
 
+use App\Models\ProductCategory;
 use Illuminate\View\Component;
 
 class AddProduct extends Component
 {
+    public $productCategories;
     /**
      * Create a new component instance.
      *
@@ -14,6 +16,7 @@ class AddProduct extends Component
     public function __construct()
     {
         //
+        $this->productCategories = ProductCategory::all();
     }
 
     /**

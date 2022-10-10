@@ -10,9 +10,10 @@ class ProductCategory extends Model
     use HasFactory;
 
     protected $table = 'product_category';
+    protected $fillable = ['categoryName'];
 
     // Relation to product
     public function product() {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class, 'product_product_category');
     }
 }

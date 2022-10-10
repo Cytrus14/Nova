@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['creationDate', 'name', 'quantity', 'description', 'thumbnail_path'];
     protected $table = 'product';
 
     // Relation to ProductReview
@@ -24,7 +26,7 @@ class Product extends Model
         return $this->hasMany(ProductPrice::class);
     }
     public function productCategories() {
-        return $this->hasMany(ProductCategory::class);
+        return $this->belongsToMany(ProductCategory::class, 'product_product_category');
     }
     // Relation to Order (many to many relation)
     public function orders() {
@@ -32,7 +34,16 @@ class Product extends Model
     }
     // Get the current product price (the most recent one)
     public function getCurrentPriceAttribute() {
-        $price = $this->productPrices->sortByDesc('validFrom')->first();
-        return $price->priceEuros . '.' . $price->priceCents;
+        $price = $this->productPrices->sortByDesc('created_at')->first();
+        if ($price->priceCents % 10 != 0)
+            return $price->priceEuros . '.' . $price->priceCents;
+        else
+            return $price->priceEuros . '.' . '0' . $price->priceCents;
+    }
+
+    public function scopeFilter($query, array $filters) {
+        if($filters['search'] ?? false) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+        }
     }
 }

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->integer('priceEuros');
             $table->integer('priceCents');
-            $table->timestamp('validFrom');
-            $table->timestamp('validUntil')->nullable();
             $table->foreignId('product_id');
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
         });
     }
 

@@ -4,11 +4,7 @@
         @foreach ($products as $product)
         <li class="px-6 py-2">
             <x-product-card
-        name="{{$product['name']}}"
-        price="{{ $product->getCurrentPriceAttribute() }}"
-        :rating="10"
-        :isInStock="true"
-        description="{{ $product['description']}}"
+        :product="$product"
         ></x-product-card>
         </li>
         @endforeach

@@ -2,21 +2,22 @@
 
 namespace App\View\Components;
 
+use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\View\Component;
 
-class ProductCard extends Component
+class ProductList extends Component
 {
-    public $product;
-    public $rating;
+    private $productsPerPage = 10;
+    public $products;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($products)
     {
-        $this->product = $product;
-        $this->rating = 10;
+        $this->products = $products;
     }
 
     /**
@@ -26,6 +27,6 @@ class ProductCard extends Component
      */
     public function render()
     {
-        return view('components.product-card');
+        return view('components.product-list');
     }
 }

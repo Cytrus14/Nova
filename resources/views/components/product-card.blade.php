@@ -1,19 +1,23 @@
 <div class="flex font-sans rounded-lg bg-white shadow-lg">
-  <div class="flex-none w-48 relative">
-    <img src="http://127.0.0.1:8000/storage/product1.png" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+  <div class="flex-none w-72 relative">
+    @if($product['thumbnail_path'] != null)
+    <img src="{{ 'http://127.0.0.1:8000/storage/' . $product['thumbnail_path'] }}" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+    @else
+    <img src="{{ 'http://127.0.0.1:8000/storage/other/NoImage.webp' }}" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+    @endif
   </div>
   <form class="flex-auto p-6">
     <div class="flex flex-wrap">
       <h1 class="flex-auto text-lg font-semibold text-slate-900">
-        {{ $name }}
+        {{ $product['name'] }}
       </h1>
       <div class="text-lg font-semibold text-slate-500">
-        {{ $price }} €
+        {{ $product->getCurrentPriceAttribute() }} €
       </div>
         <x-star-rating :rating="$rating">
 
         </x-star-rating>
-        @if ($isInStock)
+        @if (true)
         <div class="w-full flex-none text-sm font-medium text-slate-700 mt-1">
             In stock
         </div>
@@ -24,7 +28,7 @@
         @endif
     </div>
     <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
-        {{ $description }}
+        {{ $product['description'] }}
     </div>
     <div class="flex space-x-4 text-sm font-medium">
       <div class="flex-auto flex space-x-4">

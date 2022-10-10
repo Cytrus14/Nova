@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +23,13 @@ Route::get('/', function () {
 
 Route::get('/home', function(){
     return view('homePage',[
-        'products' => Product::with('productPrices')->get()
+        'products' => Product::with('productPrices')->get(),
+        'productCategories' => ProductCategory::all()
     ]);
 });
+
+
+Route::resources([
+    'productCategories' => ProductCategoryController::class,
+    'products' => ProductController::class
+]);

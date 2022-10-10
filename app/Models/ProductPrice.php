@@ -9,6 +9,7 @@ class ProductPrice extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['priceEuros', 'priceCents', 'product_id'];
     protected $table = 'product_price';
 
     // Relation to Product

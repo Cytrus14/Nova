@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('creationDate');
+            //$table->timestamp('creationDate');
             $table->string('name');
             $table->integer('quantity');
-            $table->string('tags');
+            $table->string('tags')->nullable();
             $table->longText('description');
+            $table->string('thumbnail_path')->nullable();
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
         });
     }
 
