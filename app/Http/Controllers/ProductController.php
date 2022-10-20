@@ -20,7 +20,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
         return view('products.index', [
             'products' => Product::latest()->filter(request(['search']))->paginate(10)
         ]);
@@ -34,6 +33,7 @@ class ProductController extends Controller
     public function create()
     {
         //
+        return view('products.create');
     }
 
     /**
@@ -96,7 +96,7 @@ class ProductController extends Controller
         }
 
 
-        return redirect('/home');
+        return redirect('/products');
     }
 
     /**
@@ -107,7 +107,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view("products.show", [
+            'product' => $product,
+            'productImages' => $product->productImages
+        ]);
     }
 
     /**
@@ -117,8 +120,18 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
-    {
-        //
+    {   
+        // dd(ProductCategory::all()->toArray());
+        $productCategories = $product->productCategories->toArray();
+        $productCategoriesIDs = array();
+        foreach($productCategories as $productCategory) {
+            array_push($productCategoriesIDs, $productCategory['id']);
+        }
+        return view('products.edit', [
+            'product' => $product,
+            'productCategories' => ProductCategory::all(),
+            'productCategoriesIDs' => $productCategoriesIDs
+        ]);
     }
 
     /**

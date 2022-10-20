@@ -16,5 +16,5 @@
     <x-paginated-product-list :products="$products">
     </x-paginated-product-list>
     <x-add-product></x-add-product>
-    <x-product-list></x-product-list>
+    <x-product-list :products="$products"></x-product-list>
 </body>

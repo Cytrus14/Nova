@@ -30,7 +30,6 @@
 
     <!-- pagination -->
     <div class="flex justify-center bg-white mt-3">
-        {{ $products->links() }}
     <!-- <nav aria-label="Page navigation example">
     <ul class="inline-flex -space-x-px">
         <li>
