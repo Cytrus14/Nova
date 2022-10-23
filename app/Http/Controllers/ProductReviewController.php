@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductReviewRequest;
 use App\Http\Requests\UpdateProductReviewRequest;
 use App\Models\ProductReview;
+use Illuminate\Support\Facades\Auth;
 
 class ProductReviewController extends Controller
 {
@@ -37,7 +38,20 @@ class ProductReviewController extends Controller
      */
     public function store(StoreProductReviewRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $productID = intval($request->all()['productID']);
+        $userID = $request->user()->id;
+
+        ProductReview::create([
+            'title' => $validated['title'],
+            'comment' => $validated['comment'],
+            'rating' => $validated['rating'],
+            'product_id' => $productID,
+            'user_id' => $userID
+        ]);
+
+        return redirect('products/' . $productID);
     }
 
     /**

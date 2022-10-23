@@ -41,6 +41,26 @@ class Product extends Model
             return $price->priceEuros . '.' . '0' . $price->priceCents;
     }
 
+    public function getAverageProductRating() {
+        $productReviews = $this->productReviews()->get();
+        $avg = 0;
+        $count = 0;
+        foreach($productReviews as $review) {
+            $avg += $review['rating'];
+            $count += 1;
+        }
+        if ($count > 0) {
+            $avg = $avg / $count;
+            return $avg;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getReviewsByRating($rating) {
+        return $this->productReviews()->get()->where('rating', 'equals', $rating);
+    }
+
     public function scopeFilter($query, array $filters) {
         if($filters['search'] ?? false) {
             $query->where('name', 'like', '%' . request('search') . '%');

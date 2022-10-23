@@ -14,9 +14,23 @@
     </form>
 
 
-    <div class="flex justify-center bg-white mt-3">
+    <!-- <div class="flex justify-center bg-white mt-3">
         <div class="flex items-center justify-center">
         <ul class="grow">
+            @foreach ($products as $product)
+            <li class="px-6 py-2">
+                <x-product-card
+                :product="$product"
+                ></x-product-card>
+            </li>
+            @endforeach
+        </ul>
+        </div>
+    </div> -->
+
+    <div class="flex justify-center bg-white mt-3">
+        <div class="flex items-center justify-center">
+        <ul class="grid 2xl:grid-cols-2">
             @foreach ($products as $product)
             <li class="px-6 py-2">
                 <x-product-card

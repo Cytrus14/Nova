@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProductReviewRequest extends FormRequest
 {
@@ -13,7 +14,8 @@ class StoreProductReviewRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // check if user if logged in
+        return Auth::check();
     }
 
     /**
@@ -24,7 +26,9 @@ class StoreProductReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'rating' => 'numeric|min:1',
+            'title' => '',
+            'comment' => '',
         ];
     }
 }

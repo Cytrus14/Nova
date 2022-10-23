@@ -1,3 +1,4 @@
+<a href="{{ 'products/' . $product['id'] }}">
 <div class="flex font-sans rounded-lg bg-white shadow-lg">
   <div class="flex-none w-72 relative">
     @if($product['thumbnail_path'] != null)
@@ -14,10 +15,10 @@
       <div class="text-lg font-semibold text-slate-500">
         {{ $product->getCurrentPriceAttribute() }} €
       </div>
-        <x-star-rating :rating="$rating">
-
-        </x-star-rating>
-        @if (true)
+      <div class="w-full">
+        <x-star-rating :rating="number_format((float)$product->getAverageProductRating(),2)"></x-star-rating>
+      </div>
+        @if ($product->quantity > 0)
         <div class="w-full flex-none text-sm font-medium text-slate-700 mt-1">
             In stock
         </div>
@@ -42,3 +43,4 @@
     </div>
   </form>
 </div>
+</a>

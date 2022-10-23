@@ -6,14 +6,15 @@ use Illuminate\View\Component;
 
 class ProductReview extends Component
 {
+    public $review;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($review)
     {
-        //
+        $this->review = $review;
     }
 
     /**
