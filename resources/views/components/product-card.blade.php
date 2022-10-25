@@ -7,7 +7,7 @@
     <img src="{{ 'http://127.0.0.1:8000/storage/other/NoImage.webp' }}" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
     @endif
   </div>
-  <form class="flex-auto p-6">
+  <div class="flex-auto p-6">
     <div class="flex flex-wrap">
       <h1 class="flex-auto text-lg font-semibold text-slate-900">
         {{ $product['name'] }}
@@ -36,11 +36,14 @@
         <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">
           Buy now
         </button>
-        <button class="h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900" type="button">
-          Add to cart
-        </button>
+        <form method="POST" action="{{'/cart/addProduct/' . $product['id']}}">
+          @csrf
+          <button class="h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900" type="submit">
+            Add to cart
+          </button>
+        </form>
       </div>
     </div>
-  </form>
+</div>
 </div>
 </a>

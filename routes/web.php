@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductCartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -38,5 +39,17 @@ Route::resources([
     'products' => ProductController::class,
     'productReviews' => ProductReviewController:: class
 ]);
+
+
+// Route::post('cart', function () {
+//     dd("test");
+//     return view('welcome');
+// });
+
+// routes for handling the shopping cart
+Route::controller(ProductCartController::class)->group(function () {
+    Route::post('cart/addProduct/{id}', 'addProduct');
+    Route::get('cart/show', 'showCartContent');
+});
 
 require __DIR__.'/auth.php';
