@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\UserAddressController;
 use App\Models\Product;
 use App\Models\ProductCategory;
 
@@ -37,7 +38,8 @@ Route::get('/home', function(){
 Route::resources([
     'productCategories' => ProductCategoryController::class,
     'products' => ProductController::class,
-    'productReviews' => ProductReviewController:: class
+    'productReviews' => ProductReviewController::class,
+    'userAddresses' => UserAddressController::class
 ]);
 
 
@@ -49,6 +51,7 @@ Route::resources([
 // routes for handling the shopping cart
 Route::controller(ProductCartController::class)->group(function () {
     Route::post('cart/addProduct/{id}', 'addProduct');
+    Route::get('cart/removeProduct/{id}', 'removeProduct');
     Route::get('cart/show', 'showCartContent');
 });
 

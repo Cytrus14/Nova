@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('user_address', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('validFrom');
-            $table->timestamp('validUntil')->nullable();
             $table->string('street');
             $table->string('streetNumber');
             $table->string('apartmentNumber')->nullable();
@@ -24,6 +22,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('country');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
         });
     }
 
