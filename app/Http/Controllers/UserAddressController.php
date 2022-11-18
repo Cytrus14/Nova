@@ -37,6 +37,8 @@ class UserAddressController extends Controller
     public function store(StoreUserAddressRequest $request)
     {
         UserAddress::create([
+            'name' => $request['name'],
+            'phoneNumber' => $request['phoneNumber'],
             'street' => $request['street'],
             'streetNumber' => $request['streetNumber'],
             'apartmentNumber' => $request['apartmentNumber'],
@@ -46,7 +48,7 @@ class UserAddressController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        return redirect()->back();
+        return redirect(session('redirectTo'));
     }
 
     /**
@@ -58,6 +60,7 @@ class UserAddressController extends Controller
     public function show(UserAddress $userAddress)
     {
         //
+        dd("show");
     }
 
     /**
@@ -92,5 +95,7 @@ class UserAddressController extends Controller
     public function destroy(UserAddress $userAddress)
     {
         //
+        UserAddress::get()->where('id', 'like', $userAddress->id)->firstOrFail()->delete();
+        return redirect()->back();
     }
 }

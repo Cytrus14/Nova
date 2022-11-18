@@ -57,6 +57,7 @@ class ProductController extends Controller
         $createdProduct = Product::create([
             'name' => $validated['productName'],
             'quantity' => $validated['productQuantity'],
+            'descriptionSummary' => $validated['productDescriptionSummary'],
             'description' => $validated['productDescription'],
             'thumbnail_path' => $productThumbnailPath
         ]);

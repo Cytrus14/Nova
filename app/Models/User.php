@@ -52,7 +52,7 @@ class User extends Authenticatable
     }
     // Relation to Address
     public function addresses() {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(UserAddress::class);
     }
     // Relation to ProductReview
     public function productReviews() {

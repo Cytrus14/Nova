@@ -61,9 +61,9 @@
                     </button>
                     </a>
                 </div>
-                <div class="md:order-4">
+                <!-- <div class="md:order-4">
                 @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                <div class="hidden top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                     @else
@@ -75,6 +75,36 @@
                     @endauth
                 </div>
             @endif
+                </div> -->
+
+                <div class="md:order-4">
+                    <button id="userButton" data-dropdown-toggle="userButtonDropdown" type="button" class="inline-flex relative items-center p-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </button>
+                    <div id="userButtonDropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                        @auth
+                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="userButton">
+                            <li>
+                                <a href="{{ url('/dashboard') }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                            </li>
+                            <li>
+                                <form method="POST" class="" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                                </form>
+                            </li>
+                        </ul>
+                        @else
+                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="userButton">
+                            <li>
+                                <a href="{{ url('/login') }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Log in</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register') }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Register</a>
+                            </li>
+                        </ul>
+                        @endauth
+                    </div>
                 </div>
             </div>
             </nav>

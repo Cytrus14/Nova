@@ -1,4 +1,6 @@
-
+@php
+    $orders = Auth::user()->orders;
+@endphp
 
 <x-layout>
     <div class="flex justify-center bg-white mt-3 ">
@@ -59,39 +61,87 @@
                     <p class="mt-3 font-semibold text-gray-900 dark:text-gray-300">E-mail:</p>
                     <p class="text-gray-900 dark:text-gray-300">{{Auth::user()->email}}</p>
 
-                    <p class="mt-3 font-semibold text-gray-900 dark:text-gray-300">First name:</p>
-                    @if(Auth::user()->firstName != null)
-                        <p class="text-gray-900 dark:text-gray-300">{{Auth::user()->firstName}}</p>
-                    @else
-                        <p class="text-gray-900 dark:text-red-300">Not set</p>
-                    @endif
 
-                    <p class="mt-3 font-semibold text-gray-900 dark:text-gray-300">Last name:</p>
-                    @if(Auth::user()->lastName != null)
-                        <p class="text-gray-900 dark:text-gray-300">{{Auth::user()->lastName}}</p>
-                    @else
-                        <p class="text-gray-900 dark:text-red-300">Not set</p>
-                    @endif
+                    <form method="GET" action="{{'users/' . Auth::user()->id . '/edit' }}">
+                        @csrf
+                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</button>
+                    </form>
 
-                    <p class="mt-3 font-semibold text-gray-900 dark:text-gray-300">Phone number: </p>
-                    @if(Auth::user()->phoneNumber != null)
-                        <p class="text-gray-900 dark:text-gray-300">{{Auth::user()->phoneNumber}}</p>
-                    @else
-                        <p class="text-gray-900 dark:text-red-300">Not set</p>
-                    @endif
+                    <!-- TODO: remove this form -->
+                    <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
 
                 </div>
 
                 <!-- Addresses column -->
                 <div>
                     <h1 class="mt-6 block mb-2 text-2xl font-medium text-gray-900 dark:text-gray-300">Your Addresses</h1>
-                    <x-address-card></x-address-card>
+                    @foreach (Auth::user()->addresses as $address)
+                        
+                        <x-address-card :isSelected="false" :displayButtons="true" :address="$address"></x-address-card>
+                    @endforeach
                     <form action="/userAddresses/create">
-                    <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Address</button>
+                        @php
+                            session()->put('redirectTo', 'dashboard');
+                        @endphp
+                        @csrf
+                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Address</button>
                     </form>
                 </div>
             </div>
 
+            <!-- Orders tab content -->
+            <div class="mx-6" x-show="tab == 2">
+                <table class="my-6 w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                Order ID
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Payment status
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Order date
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Order value
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if($orders != null)
+                        @foreach($orders as $order)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    #{{ $order['id'] }}
+                                </th>
+                                <td class="py-2 px-6">
+                                    @if ($order['isBooked'])
+                                        Paid
+                                    @else
+                                        Awaiting Payment 
+                                    @endif
+                                </td>
+                                <td class="py-2 px-6">
+                                    {{ $order['created_at'] }}
+                                </td>
+                                <td class="py-2 px-6">
+                                    €{{ $order->getOrderValue() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    </tbody>
+                </table>
+            </div>
 
             </div>
         </div>

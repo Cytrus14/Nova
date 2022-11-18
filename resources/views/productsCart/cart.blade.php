@@ -51,12 +51,12 @@
                 </tbody>
             </table>
             <h1 class="mx-4 my-3 flex-auto text-lg font-bold dark:text-gray-400 dark:bg-gray-700">Total: €{{ $totalOrderValue }}</h1>
-            <a href="">
-                <button type="button" class="mx-3 mt-1 mb-3 inline-flex relative items-center p-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <form action="/checkout/proceed">
+                @csrf
+                <button type="submit" class="mx-3 mt-1 mb-3 inline-flex relative items-center p-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Proceed to checkout
                 </button>
-            </a>
-
+            </form>
         </div>
     </div>
 

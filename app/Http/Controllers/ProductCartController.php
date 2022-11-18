@@ -45,7 +45,9 @@ class ProductCartController extends Controller
             }
             $productsWithDetails = Product::FindMany($productIDs);
         }
-        // dd($productQuantities);
+        session()->put('productQuantities', $productQuantities);
+        session()->put('productsWithDetails', $productsWithDetails);
+        
         return view('productsCart.cart', [
             'products' => $productsWithDetails,
             'productQuantities' => $productQuantities

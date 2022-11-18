@@ -6,14 +6,20 @@ use Illuminate\View\Component;
 
 class AddressCard extends Component
 {
+    public $address;
+    public $displayButtons;
+    public $isSelected;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($address, $displayButtons, $isSelected)
     {
-        //
+        $this->address = $address;
+        $this->displayButtons = $displayButtons;
+        $this->isSelected = $isSelected;
     }
 
     /**

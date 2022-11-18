@@ -1,7 +1,7 @@
 <x-layout>
     <div>
     <form method="POST" action="/products" enctype="multipart/form-data"/>
-    @method('PUT')
+        @method('PUT')
         @csrf
         <div class="relative z-0 mb-6 w-1/3 group">
             <div class="mt-3">

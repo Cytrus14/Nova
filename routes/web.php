@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\UserAddressController;
+use App\Http\Controllers\UserController;
 use App\Models\Product;
 use App\Models\ProductCategory;
 
@@ -39,7 +42,9 @@ Route::resources([
     'productCategories' => ProductCategoryController::class,
     'products' => ProductController::class,
     'productReviews' => ProductReviewController::class,
-    'userAddresses' => UserAddressController::class
+    'userAddresses' => UserAddressController::class,
+    'users' => UserController::class,
+    'orders' => OrderController::class
 ]);
 
 
@@ -53,6 +58,12 @@ Route::controller(ProductCartController::class)->group(function () {
     Route::post('cart/addProduct/{id}', 'addProduct');
     Route::get('cart/removeProduct/{id}', 'removeProduct');
     Route::get('cart/show', 'showCartContent');
+});
+
+// routes for handling the checkout
+Route::controller(CheckoutController::class)->group(function() {
+    Route::get('checkout/proceed', 'proceedToCheckout')->middleware('auth');
+    Route::post('/checkout/previewOrder', 'previewOrder')->middleware('auth');
 });
 
 require __DIR__.'/auth.php';

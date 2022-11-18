@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('creationDate');
-            $table->boolean('isPayed')->default(FALSE);
+            $table->boolean('isBooked')->default(TRUE);
+            $table->boolean('isCancelled')->default(FALSE);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_address_id');
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
         });
     }
 

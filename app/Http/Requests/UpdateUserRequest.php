@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,10 @@ class StoreProductRequest extends FormRequest
      */
     public function rules()
     {
+        // check whether the new username and email are unique in respect to other users (ignore the current user)
         return [
-            'productName' => 'required',
-            'productPrice' => array('required', 'regex:/^\d+(\.)?(\d){0,2}$/'),
-            'productQuantity' => array('required', 'regex:/^\d+$/'),
-            'productDescriptionSummary' => '',
-            'productDescription' => '',
-            'productCategories' => array('required', 'min:1')
+            'username' => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
+            'email' => ['required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
         ];
     }
 }
