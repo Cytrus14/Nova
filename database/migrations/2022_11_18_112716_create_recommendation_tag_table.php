@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_review', function (Blueprint $table) {
+        Schema::create('recommendation_tag', function (Blueprint $table) {
             $table->id();
-            $table->integer('rating');
-            $table->string('title')->nullable();
-            $table->longText('comment')->nullable();
-            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            // $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id');
-            $table->foreignId('product_id');
+            $table->string('type');
+            $table->string('value');
             $table->timestamp('updated_at');
             $table->timestamp('created_at');
         });
@@ -34,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_review');
+        Schema::dropIfExists('recommendation_tag');
     }
 };

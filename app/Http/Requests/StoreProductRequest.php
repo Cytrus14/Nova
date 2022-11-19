@@ -30,7 +30,9 @@ class StoreProductRequest extends FormRequest
             'productQuantity' => array('required', 'regex:/^\d+$/'),
             'productDescriptionSummary' => '',
             'productDescription' => '',
-            'productCategories' => array('required', 'min:1')
+            'productCategories' => array('required', 'min:1'),
+            'priceTag' => 'required',
+            'categoryTag' => 'required'
         ];
     }
 }

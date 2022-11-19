@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\RecommendationTag;
 
 class ProductController extends Controller
 {
@@ -44,7 +45,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        // dd($request->file());
+        // dd($request->all());
         $validated = $request->validated();
 
         // handle the product thumbnail
@@ -84,6 +85,17 @@ class ProductController extends Controller
         foreach($categoryIds as $categoryId) {
             $createdProduct->productCategories()->attach($categoryId);
         }
+
+        // associate create product with selected tags
+        $priceTagValue = $validated['priceTag'];
+        $priceTag = RecommendationTag::get()->where('type', 'equals', 0)->where('value', 'equals', $priceTagValue)->first();
+        $priceTagID = $priceTag['id'];
+        $createdProduct->recommendationTags()->attach($priceTagID);
+
+        $categoryTagValue = $validated['categoryTag'];
+        $categoryTag = RecommendationTag::get()->where('type', 'equals', 1)->where('value', 'equals', $categoryTagValue)->first();
+        $categoryTagID = $categoryTag['id'];
+        $createdProduct->recommendationTags()->attach($categoryTagID);
 
         // handle additional product images
         if ($request->hasFile('productImages')) {

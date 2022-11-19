@@ -48,7 +48,7 @@
     @enderror
   </div>
 
-  <!-- Dropdown menu -->
+  <!-- category dropdown menu -->
   <div id="categoryDropdown" class="hidden z-10 w-60 bg-white rounded shadow dark:bg-gray-700" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 15085px);" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom">
       <div class="p-3">
         <label for="input-group-search" class="sr-only">Search</label>
@@ -73,6 +73,49 @@
         Add new category
     </a>
   </div>
+
+  <div class="mb-4">
+    <!-- price tag dropdown menu -->
+    <button id="priceTagDropdownButton" data-dropdown-toggle="priceTagDropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Price tag<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+    @error('priceTag')
+      <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
+    @enderror
+
+    <div id="priceTagDropdown" class="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="priceTagDropdownButton">
+          @foreach ($priceTags as $priceTag)
+            <li>
+              <div class="flex items-center">
+                  <input name="priceTag" id="{{ $priceTag['value'] }}" type="radio" value="{{ $priceTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="{{ $priceTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$priceTag['value']}}</label>
+              </div>
+            </li>
+          @endforeach
+        </ul>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <!-- category tag dropdown menu -->
+    <button id="categoryTagDropdownButton" data-dropdown-toggle="categoryTagDropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Category tag<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+    @error('categoryTag')
+      <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
+    @enderror
+
+    <div id="categoryTagDropdown" class="hidden z-10 w-64 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="categoryTagDropdownButton">
+          @foreach ($categoryTags as $categoryTag)
+            <li>
+              <div class="flex items-center">
+                  <input name="categoryTag" id="{{ $categoryTag['value'] }}" type="radio" value="{{ $categoryTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="{{ $categoryTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$categoryTag['value']}}</label>
+              </div>
+            </li>
+          @endforeach
+        </ul>
+    </div>
+  </div>
+
 
 
 

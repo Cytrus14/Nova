@@ -20,5 +20,52 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        
+
+        // This code creates entires that should be present by default (in production)
+        // Default product categories
+        \App\Models\ProductCategory::factory()->create([
+            'categoryName' => "Telescopes"
+        ]);
+        \App\Models\ProductCategory::factory()->create([
+            'categoryName' => "Binoculars"
+        ]);
+        \App\Models\ProductCategory::factory()->create([
+            'categoryName' => "Accessories"
+        ]);
+
+        // Default Recommendation tags
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 0,
+            "value" => "low"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 0,
+            "value" => "medium"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 0,
+            "value" => "high"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 1,
+            "value" => "telescope"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 1,
+            "value" => "binoculars"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 1,
+            "value" => "telescope-accessories"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 1,
+            "value" => "binoculars-accessories"
+        ]);
+        \App\Models\RecommendationTag::factory()->create([
+            'type' => 1,
+            "value" => "universal-accessories"
+        ]);
     }
 }

@@ -12,6 +12,7 @@ class Product extends Model
 
     protected $fillable = ['creationDate', 'name', 'quantity', 'descriptionSummary', 'description', 'thumbnail_path'];
     protected $table = 'product';
+    protected $appends = 'rating';
 
     // Relation to ProductReview
     public function productReviews() {
@@ -32,6 +33,11 @@ class Product extends Model
     public function orders() {
         return $this->belongsToMany(Order::class, 'product_order')->withPivot('productQuantity');
     }
+    // Relation to RecommendationTag (many to many relation)
+    public function recommendationTags() {
+        return $this->belongsToMany(RecommendationTag::class, 'product_recommendation_tag');
+    }
+
     // Get the current product price (the most recent one) formatted as a string
     public function getCurrentPriceAttribute() {
         $price = $this->productPrices->sortByDesc('created_at')->first();

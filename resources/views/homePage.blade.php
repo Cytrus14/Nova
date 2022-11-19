@@ -31,4 +31,6 @@
     <x-add-product></x-add-product>
     <x-product-list :products="$products"></x-product-list>
 
+    <x-product-recommendations></x-product-recommendations>
+
 </x-layout>
