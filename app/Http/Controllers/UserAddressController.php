@@ -94,8 +94,10 @@ class UserAddressController extends Controller
      */
     public function destroy(UserAddress $userAddress)
     {
-        //
-        UserAddress::get()->where('id', 'like', $userAddress->id)->firstOrFail()->delete();
+        // addresses with an placed order cannot be deleted in order to preserve data integrity
+        if (count($userAddress->orders) == 0) {
+            UserAddress::get()->where('id', 'like', $userAddress->id)->firstOrFail()->delete();
+        }
         return redirect()->back();
     }
 }

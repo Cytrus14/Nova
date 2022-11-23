@@ -1,4 +1,5 @@
 <div>
+    @if ($recommendedProducts != null)
     <h1 class="mt-6 block mb-2 text-2xl font-medium text-gray-900 dark:text-gray-300">Recommended for you:</h1>
     <div class="flex justify-center bg-white mt-3">
         <div class="flex items-center justify-center">
@@ -13,5 +14,5 @@
         </ul>
         </div>
     </div>
-
+    @endif
 </div>

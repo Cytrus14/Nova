@@ -13,7 +13,8 @@ class UpdateOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // TODO: add actual authorization
+        return true;
     }
 
     /**

@@ -18,10 +18,10 @@ return new class extends Migration
             //$table->timestamp('creationDate');
             $table->string('name');
             $table->integer('quantity');
-            $table->string('tags')->nullable();
             $table->longText('descriptionSummary');
             $table->longText('description');
             $table->string('thumbnail_path')->nullable();
+            $table->boolean('is_archived')->default(false);
             $table->timestamp('updated_at');
             $table->timestamp('created_at');
         });

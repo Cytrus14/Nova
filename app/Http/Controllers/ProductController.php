@@ -11,6 +11,7 @@ use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\RecommendationTag;
+use Illuminate\Filesystem\Filesystem;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index', [
-            'products' => Product::latest()->filter(request(['search']))->paginate(10)
+            'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search']))->paginate(10)
         ]);
     }
 
@@ -140,10 +141,15 @@ class ProductController extends Controller
         foreach($productCategories as $productCategory) {
             array_push($productCategoriesIDs, $productCategory['id']);
         }
+
+        $priceTags = RecommendationTag::get()->where('type', 'equals', 0);
+        $categoryTags = RecommendationTag::get()->where('type', 'equals', 1);
         return view('products.edit', [
             'product' => $product,
             'productCategories' => ProductCategory::all(),
-            'productCategoriesIDs' => $productCategoriesIDs
+            'productCategoriesIDs' => $productCategoriesIDs,
+            'priceTags' => $priceTags,
+            'categoryTags' => $categoryTags
         ]);
     }
 
@@ -156,17 +162,104 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $validated = $request->validated();
+
+        // handle the product thumbnail
+        $productThumbnailPath = null;
+        if ($request->hasFile('productThumbnail')) {
+            // Delete previous thumbnail
+            if ($product->thumbnail_path != null) {
+                unlink(storage_path('app/public/' . $product->thumbnail_path));
+            }
+            // Set the new thumbnail
+            $productThumbnailPath = $request->file('productThumbnail')->store('productThumbnails', 'public');
+        }
+
+        $product->name = $validated['productName'];
+        $product->quantity = $validated['productQuantity'];
+        $product->descriptionSummary = $validated['productDescriptionSummary'];
+        $product->description = $validated['productDescription'];
+        $product->thumbnail_path = $productThumbnailPath;
+
+        // get the new product's price, process it and store in DB
+        $price = explode('.', $validated['productPrice']);
+        $priceEuros = "0";
+        $priceCents = "00";
+        if (count($price) == 2) {
+            $priceEuros = $price[0];
+            $priceCents = $price[1];
+        } else {
+            $priceEuros = $price[0];
+        }
+        ProductPrice::create([
+            'priceEuros' => $priceEuros,
+            'priceCents' => $priceCents,
+            'product_id' => $product['id']
+
+        ]);
+
+        // disassociate product with previous categories
+        foreach($product->productCategories as $category) {
+            $product->productCategories()->detach($category['id']);
+        }
+
+        // associate crated product with selected categories
+        $categoryIds = $validated['productCategories'];
+        foreach($categoryIds as $categoryId) {
+            $product->productCategories()->attach($categoryId);
+        }
+
+        //disassociate product with previous tags
+        foreach($product->recommendationTags as $tag) {
+            $product->recommendationTags()->detach($tag['id']);
+        }
+
+        // associate create product with selected tags
+        $priceTagValue = $validated['priceTag'];
+        $priceTag = RecommendationTag::get()->where('type', 'equals', 0)->where('value', 'equals', $priceTagValue)->first();
+        $priceTagID = $priceTag['id'];
+        $product->recommendationTags()->attach($priceTagID);
+
+        $categoryTagValue = $validated['categoryTag'];
+        $categoryTag = RecommendationTag::get()->where('type', 'equals', 1)->where('value', 'equals', $categoryTagValue)->first();
+        $categoryTagID = $categoryTag['id'];
+        $product->recommendationTags()->attach($categoryTagID);
+
+        // handle additional product images
+        if ($request->hasFile('productImages')) {
+            foreach($request->file('productImages') as $productImage) {
+                $productImagePath = $productImage->store('productImages', 'public');
+                ProductImage::create([
+                    'image_path' => $productImagePath,
+                    'product_id' => $product['id']
+                ]);
+            }
+        }
+
+        $product->save();
+        return redirect('/dashboard');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archives the specified resource.
      *
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
-    {
-        //
+    {   
+        $product->is_archived = true;
+        // delete product thumbnail
+        if ($product->thumbnail_path != null) {
+            unlink(storage_path('app/public/' . $product->thumbnail_path));
+            $product->thumbnail_path = null;
+        }
+        // delete other product images
+        foreach($product->productImages as $image) {
+            unlink(storage_path('app/public/' . $image->image_path));
+            $image->delete();
+        }
+        $product->save();
+        return redirect()->back();
     }
 }

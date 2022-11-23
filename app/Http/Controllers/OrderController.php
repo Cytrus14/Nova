@@ -87,7 +87,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return view("order.show", [
+            'order' => $order
+        ]);
     }
 
     /**
@@ -110,7 +112,19 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $fields = $request->all();
+        if (array_key_exists('isPaid', $fields) && $fields['isPaid'] == 1) {
+            $order->isBooked = true;
+        }
+        if (array_key_exists('isShipped', $fields) && $fields['isShipped'] == 1) {
+            $order->is_shipped = true;
+        }
+        if (array_key_exists('isCancelled', $fields) && $fields['isCancelled'] == 1) {
+            $order->isCancelled = true;
+        }
+
+        $order->save();
+        return redirect()->back();
     }
 
     /**

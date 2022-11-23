@@ -1,8 +1,8 @@
 <x-layout>
     <div>
-    <form method="POST" action="/products" enctype="multipart/form-data"/>
-        @method('PUT')
+    <form method="POST" action="{{'/products/' . $product['id']}}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="relative z-0 mb-6 w-1/3 group">
             <div class="mt-3">
                 <label for="productName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product name</label>
@@ -22,7 +22,7 @@
 
             <div class="mt-3">
                 <label for="productQuantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product quantity</label>
-                <input value="{{$product['quantity']}}"productQuantity" type="text" id="productQuantity" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input value="{{$product['quantity']}}" name="productQuantity" type="text" id="productQuantity" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('productQuantity')
                 <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
                 @enderror
@@ -50,7 +50,7 @@
         @enderror
     </div>
 
-    <!-- Dropdown menu -->
+    <!-- category menu -->
     <div id="categoryDropdown" class="hidden z-10 w-60 bg-white rounded shadow dark:bg-gray-700" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 15085px);" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom">
         <div class="p-3">
             <label for="input-group-search" class="sr-only">Search</label>
@@ -80,12 +80,58 @@
         </a>
     </div>
 
+    <div class="mb-4">
+    <!-- price tag dropdown menu -->
+    <button id="priceTagDropdownButton" data-dropdown-toggle="priceTagDropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Price tag<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+    @error('priceTag')
+      <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
+    @enderror
+
+    <div id="priceTagDropdown" class="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="priceTagDropdownButton">
+          @foreach ($priceTags as $priceTag)
+            <li>
+              <div class="flex items-center">
+                  <input name="priceTag" id="{{ $priceTag['value'] }}" type="radio" value="{{ $priceTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="{{ $priceTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$priceTag['value']}}</label>
+              </div>
+            </li>
+          @endforeach
+        </ul>
+    </div>
+  </div>
+
+    <div class="mb-4">
+        <!-- category tag dropdown menu -->
+        <button id="categoryTagDropdownButton" data-dropdown-toggle="categoryTagDropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Category tag<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+        @error('categoryTag')
+        <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
+        @enderror
+
+        <div id="categoryTagDropdown" class="hidden z-10 w-64 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="categoryTagDropdownButton">
+            @foreach ($categoryTags as $categoryTag)
+                <li>
+                <div class="flex items-center">
+                    <input name="categoryTag" id="{{ $categoryTag['value'] }}" type="radio" value="{{ $categoryTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <label for="{{ $categoryTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$categoryTag['value']}}</label>
+                </div>
+                </li>
+            @endforeach
+            </ul>
+        </div>
+    </div>
+
 
 
         
         <div class="relative z-0 mb-6 w-1/2">
-            <label for="productDescription" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
-            <textarea name="productDescription" type="text" id="productDescription" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['description']}}</textarea>
+            <label for="productDescriptionSummary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
+            <textarea name="productDescriptionSummary" type="text" id="productDescriptionSummary" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['descriptionSummary']}}</textarea>
+        </div>
+        <div class="relative z-0 mb-6 w-1/2">
+          <label for="productDescription" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
+          <textarea name="productDescription" type="text" id="productDescription" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['description']}}</textarea>
         </div>
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
 

@@ -13,7 +13,8 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // TODO: add actual authorization
+        return true;
     }
 
     /**
@@ -24,7 +25,14 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'productName' => 'required',
+            'productPrice' => array('required', 'regex:/^\d+(\.)?(\d){0,2}$/'),
+            'productQuantity' => array('required', 'regex:/^\d+$/'),
+            'productDescriptionSummary' => '',
+            'productDescription' => '',
+            'productCategories' => array('required', 'min:1'),
+            'priceTag' => 'required',
+            'categoryTag' => 'required'
         ];
     }
 }

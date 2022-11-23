@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'isBooked', 'isCancelled', 'user_address_id'];
+    protected $fillable = ['user_id', 'isBooked', 'isCancelled', 'is_shipped', 'user_address_id'];
     protected $table = 'order';
 
     // Relation to User

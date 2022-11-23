@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
-            $table->boolean('isBooked')->default(TRUE);
-            $table->boolean('isCancelled')->default(FALSE);
+            $table->boolean('isBooked')->default(false);
+            $table->boolean('isCancelled')->default(false);
+            $table->boolean('is_shipped')->default(false);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_address_id');
             $table->timestamp('updated_at');

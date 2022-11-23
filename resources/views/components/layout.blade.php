@@ -5,6 +5,8 @@
     </head>
     <body class="bg-gray-900">
         <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+        <!-- Alpine Plugins -->
+        <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
         <script src="//unpkg.com/alpinejs" defer></script>
         <div>
         <!-- navbar -->

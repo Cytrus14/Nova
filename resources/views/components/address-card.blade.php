@@ -19,7 +19,7 @@
     </div>
     <div>
     <div class="flex w-full place-content-end">
-      @if($displayButtons)
+      @if($displayButtons && count($address->orders) == 0)
             <button type="submit" class="mr-2 mt-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Delete address</button>
       @endif
       @if($isSelected)

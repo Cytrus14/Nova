@@ -50,60 +50,60 @@ class ProductRecommendations extends Component
                         $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                             $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                                 ->orWhere('value', '=', 'binoculars-accessories');
-                        })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->get();
+                        })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                     } elseif (in_array("medium", $purchasedProductTags)) {
                         $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                             $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                                 ->orWhere('value', '=', 'binoculars-accessories');
-                        })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->get();
+                        })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                     } else {
                         $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                             $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                                 ->orWhere('value', '=', 'binoculars-accessories');
-                        })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->get();
+                        })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                     }
                 } elseif (in_array("high", $purchasedProductTags)) {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars');
-                    })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 } elseif (in_array('medium', $purchasedProductTags)) {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars');
-                    })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 } else {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars');
-                    })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 }
             } elseif (in_array('binoculars', $purchasedProductTags)) {
                 if (in_array('high', $purchasedProductTags)) {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars-accessories');
-                    })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 } elseif (in_array('medium', $purchasedProductTags)) {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars-accessories');
-                    })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'medium')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 } else {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope')->orWhere('value', '=', 'universal-accessories')
                             ->orWhere('value', '=', 'binoculars-accessories');
-                    })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->get();
+                    })->whereRelation('recommendationTags','value', '=', 'low')->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
                 }
             } elseif (in_array('binoculars-accessories', $purchasedProductTags) || in_array('telescope-accessories', $purchasedProductTags) || in_array('universal-accessories', $purchasedProductTags)) {
                     $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                         $query->where('value', '=', 'telescope')->orWhere('value', '=', 'binoculars');
-                    })->where('quantity', '>', 0)->get();
+                    })->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
             } else {
                 $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
                     $query->where('value', '=', 'telescope')->orWhere('value', '=', 'binoculars')
                     ->orWhere('value', '=', 'universal-accessories');;
-                })->where('quantity', '>', 0)->get();
+                })->where('quantity', '>', 0)->where('is_archived', '=', 'false')->get();
             }
 
             // sort all recommended product from highest to lowest rating

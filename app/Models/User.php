@@ -59,4 +59,8 @@ class User extends Authenticatable
         return $this->hasMany(ProductReview::class);
     }
 
+    public function getPaginatedOrders() {
+       return $this->orders()->paginate(10);
+    }
+
 }

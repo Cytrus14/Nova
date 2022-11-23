@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['creationDate', 'name', 'quantity', 'descriptionSummary', 'description', 'thumbnail_path'];
+    protected $fillable = ['creationDate', 'name', 'quantity', 'descriptionSummary', 'description', 'thumbnail_path', 'isArchived'];
     protected $table = 'product';
     protected $appends = 'rating';
 
