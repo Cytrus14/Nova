@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProductRequest extends FormRequest
 {
@@ -13,8 +14,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: add actual authorization
-        return true;
+        return Auth::user()->is_admin;
     }
 
     /**
@@ -28,7 +28,7 @@ class StoreProductRequest extends FormRequest
             'productName' => 'required',
             'productPrice' => array('required', 'regex:/^\d+(\.)?(\d){0,2}$/'),
             'productQuantity' => array('required', 'regex:/^\d+$/'),
-            'productDescriptionSummary' => '',
+            'productDescriptionSummary' => 'max:120',
             'productDescription' => '',
             'productCategories' => array('required', 'min:1'),
             'priceTag' => 'required',

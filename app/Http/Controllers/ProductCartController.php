@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use stdClass;
+use Illuminate\Support\Facades\Gate;
 
 class ProductCartController extends Controller
 {
     public function addProduct($id) {
         $existingProduct = null;
         $products = session('productsInCart');
-        if ($products != null)
+        if ($products != null) {
             foreach($products as $product) {
                 if ($product->id == $id) {
                     $existingProduct = $product;
                     break;
                 }
             }
+        }
 
         if ($existingProduct == null) {
             $product = new stdClass;
@@ -75,5 +77,48 @@ class ProductCartController extends Controller
         session()->forget('productsInCart');
         session()->put('productsInCart', $productsInCart);
         return redirect()->back();
+    }
+
+    public function addProductAndGoToCart($id) {
+        $this->addProduct($id);
+        return $this->showCartContent();
+    }
+
+    public function increaseProductQuantity($id) {
+        $products = session('productsInCart');
+        if ($products != null) {
+            foreach($products as $product) {
+                if ($product->id == $id) {
+                    $productInDB = Product::where('id', '=', $id)->first();
+                    if ($productInDB->quantity > $product->quantity) {
+                        $product->quantity++;
+                    }
+                    break;
+                }
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function decreaseProductQuantity($id) {
+        $products = session('productsInCart');
+        if ($products != null) {
+            foreach($products as $product) {
+                if ($product->id == $id) {
+                    if ($product->quantity > 1) {
+                        $product->quantity--;
+                        break;
+                    } else {
+                        $this->removeProduct($product->id);
+                        break;
+                    }
+                }
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function goBack() {
+        return redirect('/home');
     }
 }

@@ -24,7 +24,7 @@ use App\Models\ProductCategory;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homePage');
 });
 
 Route::get('/dashboard', function () {
@@ -33,8 +33,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/home', function(){
     return view('homePage',[
-        'products' => Product::with('productPrices')->get(),
-        'productCategories' => ProductCategory::all()
+        // 'products' => Product::with('productPrices')->get(),
+        // 'productCategories' => ProductCategory::all()
     ]);
 });
 
@@ -55,15 +55,30 @@ Route::resources([
 
 // routes for handling the shopping cart
 Route::controller(ProductCartController::class)->group(function () {
-    Route::post('cart/addProduct/{id}', 'addProduct');
-    Route::get('cart/removeProduct/{id}', 'removeProduct');
-    Route::get('cart/show', 'showCartContent');
+    Route::post('/cart/addProduct/{id}', 'addProduct');
+    Route::post('/cart/addProductAndGoToCart/{id}', 'addProductAndGoToCart');
+    Route::get('/cart/increaseProductQuantity/{id}', 'increaseProductQuantity');
+    Route::get('/cart/decreaseProductQuantity/{id}', 'decreaseProductQuantity');
+    Route::get('/cart/removeProduct/{id}', 'removeProduct');
+    Route::get('/cart/show', 'showCartContent');
+    Route::get('/cart/return', 'goBack');
 });
 
 // routes for handling the checkout
 Route::controller(CheckoutController::class)->group(function() {
-    Route::get('checkout/proceed', 'proceedToCheckout')->middleware('auth');
-    Route::post('/checkout/previewOrder', 'previewOrder')->middleware('auth');
+    Route::get('/checkout/proceed', 'proceedToCheckout')->middleware('auth');
+    Route::post('/checkout/previewOrder', 'previewOrder')->middleware('auth');;
+});
+
+// routes for handling other pages
+Route::get('/about', function () {
+    return view('aboutPage');
+});
+Route::get('/privacy', function () {
+    return view('privacyPolicyPage');
+});
+Route::get('/contact', function () {
+    return view('contactPage');
 });
 
 require __DIR__.'/auth.php';

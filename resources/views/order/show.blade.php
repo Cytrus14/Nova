@@ -5,32 +5,44 @@
 @endphp
 
 <x-layout>
-    <div class="flex justify-center bg-white mt-3 ">
-        <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
+    <div class="flex justify-center bg-gray-900 mt-3">
+        <div class="overflow-x-auto w-2/3 dark:bg-gray-700 rounded-md">
             <div class="mx-6">
                 <h1 class="mx-6 my-3 mt-6 block mb-4 text-2xl font-medium text-gray-900 dark:text-gray-300">Order #{{ $order['id'] }}</h1>
                 
                 @if($user->is_admin)
-                <div class="mx-6 w-96 grid grid-cols-3 gap-4" >
-                    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="mb-0">
+                <h1 class="mx-6 mt-6 mb- block text-md font-medium text-gray-900 dark:text-gray-300">Order status settings:</h1>
+                <form action="{{ route('orders.update', $order->id) }}" method="POST" class="mb-0">
+                        <div class="mx-6 w-96 grid grid-cols-3 gap-4" >
                         @csrf
                         @method('PUT')
-                        <input name="isPaid" type="hidden" id="isPaid" value="1">
-                        <div><button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Mark as paid</button></div>
-                    </form>
-                    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="mb-0">
-                        @csrf
-                        @method('PUT')
-                        <input name="isShipped" type="hidden" id="isShipped" value="1">
-                        <div><button type="submit" class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Mark as shipped</button></div>
-                    </form>
-                    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="mb-0">
-                        @csrf
-                        @method('PUT')
-                        <input name="isCancelled" type="hidden" id="isCancelled" value="1">
-                        <div><button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancel order</button></div>
-                    </form>
-                </div>
+                        <div>
+                            <label for="isPaid" class="py-2 ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Paid</label>
+                            @if ($order['isBooked'])
+                                <input checked name="isPaid" type="checkbox" id="isPaid">
+                            @else
+                                <input name="isPaid" type="checkbox" id="isPaid">
+                            @endif
+                        </div>
+                        <div>
+                        <label for="isShipped" class="py-2 ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Shipped</label>
+                        @if ($order['is_shipped'])
+                            <input checked name="isShipped" type="checkbox" id="isShipped">
+                        @else
+                            <input name="isShipped" type="checkbox" id="isShipped">
+                        @endif
+                        </div>
+                        <div>
+                        <label for="isCancelled" class="py-2 ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Cancelled</label>
+                        @if ($order['isCancelled'])
+                            <input checked name="isCancelled" type="checkbox" id="isCancelled">
+                        @else
+                            <input name="isCancelled" type="checkbox" id="isCancelled">
+                        @endif
+                        </div>
+                        <div><button type="submit" class="mb-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button></div>
+                    </div>
+                </form>
                 @endif
 
                 <div class="mx-6 grid grid-cols-2">
@@ -39,7 +51,7 @@
                         <h1 class="block text-md font-medium text-gray-900 dark:text-gray-300">{{$order['created_at']}}
 
                         <h1 class="mt-6 mb-1 block text-md font-medium text-gray-900 dark:text-gray-300">Status:</h1>
-                        @if (!$order['isBooked'] && !$order['isCancelled'])
+                        @if (!$order['isBooked'] && !$order['isCancelled'] && !$order['is_shipped'])
                             <h1 class="text-md font-medium text-yellow-500 dark:text-yellow-500">Awaiting payment</h1>
                         @elseif ($order['is_shipped'] && !$order['isCancelled'])
                             <h1 class="text-md font-medium text-blue-500 dark:blue-green-500">Shipped</h1>

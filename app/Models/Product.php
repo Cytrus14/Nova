@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -85,9 +86,55 @@ class Product extends Model
         }
     }
 
+    public function getReviewByUser($userID) {
+        return $this->productReviews()->where('user_id', '=', $userID)->first();
+    }
+
+    public function getPriceTag() {
+        return $this->recommendationTags()->where('type', '=', 0)->first();
+    }
+
+    public function getCategoryTag() {
+        return $this->recommendationTags()->where('type', '=', 1)->first();
+    }
+
     public function scopeFilter($query, array $filters) {
+
+        // negative words (words proceeded by '!') are combined using the AND operator
+        // positive words are combine using the OR operator
         if($filters['search'] ?? false) {
-            $query->where('name', 'like', '%' . request('search') . '%');
+            $negativeWords = array();
+            $positiveWords = array();
+    
+            $words = explode(' ', request('search'));
+            foreach($words as $word) {
+                if (str_starts_with($word, '!')) {
+                    $word = ltrim($word, '!');
+                    array_push($negativeWords, $word);
+                }
+                else {
+                    array_push($positiveWords, $word);
+                }
+            }
+    
+            foreach($positiveWords as $positiveWord) {
+                $query->where('name', 'like', '%' . $positiveWord . '%')
+                ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
+                ->orWhere('description', 'like', '%' . $positiveWord . '%');
+            }
+
+            foreach($negativeWords as $negativeWord) {
+                $query->where('name', 'not like', '%' . $negativeWord . '%')
+                ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
+                ->where('description', 'not like', '%' . $negativeWord . '%');
+            }
+
+        }
+
+        //filter by product category
+        if($filters['category'] ?? false) {
+            $query->whereRelation('productCategories','categoryName', '=', request('category'));
+
         }
     }
 }

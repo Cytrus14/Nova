@@ -10,8 +10,10 @@ use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\ProductReview;
 use App\Models\RecommendationTag;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -23,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index', [
-            'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search']))->paginate(10)
+            'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10)
         ]);
     }
 
@@ -34,7 +36,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        if (!Gate::allows('isAdmin')) {
+            abort(403); 
+        }
         return view('products.create');
     }
 
@@ -46,7 +50,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        // dd($request->all());
+        dd($request->all());
         $validated = $request->validated();
 
         // handle the product thumbnail
@@ -123,7 +127,8 @@ class ProductController extends Controller
     {
         return view("products.show", [
             'product' => $product,
-            'productImages' => $product->productImages
+            'productImages' => $product->productImages,
+            'reviews' => ProductReview::where('product_id', '=', $product['id'])->paginate(5)
         ]);
     }
 
@@ -135,6 +140,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {   
+        if (!Gate::allows('isAdmin')) {
+            abort(403);
+        }
         // dd(ProductCategory::all()->toArray());
         $productCategories = $product->productCategories->toArray();
         $productCategoriesIDs = array();
@@ -248,6 +256,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {   
+        if (!Gate::allows('isAdmin')) {
+            abort(403);
+        }
         $product->is_archived = true;
         // delete product thumbnail
         if ($product->thumbnail_path != null) {

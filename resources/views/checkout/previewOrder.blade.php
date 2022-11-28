@@ -2,8 +2,8 @@
     $totalOrderValue = 0;
 @endphp
 <x-layout>
-    <div class="flex justify-center bg-white mt-3 ">
-        <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
+    <div class="flex justify-center bg-gray-900 mt-3 ">
+        <div class="overflow-x-auto w-2/3 dark:bg-gray-700 rounded-md">
             <div class="mx-6">
                 <h1 class="mx-6 my-3 mt-6 block mb-4 text-2xl font-medium text-gray-900 dark:text-gray-300">Selected shipping address</h1>
                 <x-address-card :isSelected="false" :displayButtons="false" :address="$selectedAddress"></x-address-card>

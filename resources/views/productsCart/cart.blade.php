@@ -2,8 +2,9 @@
     $totalOrderValue = 0;
 @endphp
 <x-layout>
-    <div class="flex justify-center bg-white mt-3 ">
-        <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
+    <div class="flex justify-center bg-gray-900 mt-3 ">
+        <div class="overflow-x-auto w-2/3 rounded-md dark:bg-gray-700">
+            @if($products != null)
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -22,14 +23,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                @if($products != null)
                     @foreach($products as $product)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $product['name'] }}
                             </th>
                             <td class="py-2 px-6">
+                                <a href="{{'/cart/increaseProductQuantity/' . $product['id'] }}">
+                                    <button type="button" class="mr-3 inline-flex relative items-center p-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                    </button>
+                                </a>
                                 {{ $productQuantities[$product['id']]}}
+                                <a href="{{'/cart/decreaseProductQuantity/' . $product['id'] }}">
+                                    <button type="button" class="ml-3 inline-flex relative items-center p-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                                    </button>
+                                </a>
                             </td>
                             <td class="py-2 px-6">
                                 @php
@@ -47,7 +57,6 @@
                             </td>
                         </tr>
                     @endforeach
-                @endif
                 </tbody>
             </table>
             <h1 class="mx-4 my-3 flex-auto text-lg font-bold dark:text-gray-400 dark:bg-gray-700">Total: €{{ $totalOrderValue }}</h1>
@@ -57,6 +66,16 @@
                     Proceed to checkout
                 </button>
             </form>
+            @else
+            <div class="mx-6">
+                <h1 class="mx-6 my-3 mt-6 block mb-4 text-2xl font-medium text-gray-500 dark:text-gray-300">Cart is empty</h1>
+                <a href="/cart/return">
+                    <button type="button" class="mx-6 mt-1 mb-6 inline-flex relative items-center p-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Go back
+                    </button>
+                </a>
+            </div>
+            @endif
         </div>
     </div>
 

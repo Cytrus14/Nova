@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductReviewRequest;
 use App\Http\Requests\UpdateProductReviewRequest;
 use App\Models\ProductReview;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProductReviewController extends Controller
 {
@@ -37,10 +38,15 @@ class ProductReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreProductReviewRequest $request)
-    {
+    {   
         $validated = $request->validated();
-
         $productID = intval($request->all()['productID']);
+
+        // check whether the given user has purchased the selected product
+        if (!Gate::allows('store-product-review', $productID)) {
+            abort(403);
+        }
+
         $userID = $request->user()->id;
 
         ProductReview::create([
@@ -85,7 +91,16 @@ class ProductReviewController extends Controller
      */
     public function update(UpdateProductReviewRequest $request, ProductReview $productReview)
     {
-        //
+        if (!Gate::allows('update-product-review', $productReview)) {
+            abort(403);
+        }
+
+        $validated = $request->validated();
+        $productReview['rating'] = $validated['rating'];
+        $productReview['title'] = $validated['title'];
+        $productReview['comment'] = $validated['comment'];
+        $productReview->save();
+        return redirect()->back();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserAddressRequest;
 use App\Http\Requests\UpdateUserAddressRequest;
 use App\Models\UserAddress;
+use Illuminate\Support\Facades\Gate;
 
 class UserAddressController extends Controller
 {
@@ -60,7 +61,6 @@ class UserAddressController extends Controller
     public function show(UserAddress $userAddress)
     {
         //
-        dd("show");
     }
 
     /**
@@ -94,6 +94,10 @@ class UserAddressController extends Controller
      */
     public function destroy(UserAddress $userAddress)
     {
+        if (!Gate::allows('delete-user-address', $userAddress)) {
+            abort(403);
+        }
+
         // addresses with an placed order cannot be deleted in order to preserve data integrity
         if (count($userAddress->orders) == 0) {
             UserAddress::get()->where('id', 'like', $userAddress->id)->firstOrFail()->delete();

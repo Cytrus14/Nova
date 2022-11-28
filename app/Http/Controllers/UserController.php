@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -58,7 +59,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        if (!Gate::allows('edit-user', $user)) {
+            abort(403);
+        }
+
         return view('user.edit', [
             'user' => $user
         ]);
@@ -73,6 +77,10 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        if (!Gate::allows('update-user', $user)) {
+            abort(403);
+        }
+
         $validated = $request->validated();
         $user->username = $validated['username'];
         $user->email = $validated['email'];

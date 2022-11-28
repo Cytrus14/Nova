@@ -63,4 +63,27 @@ class User extends Authenticatable
        return $this->orders()->paginate(10);
     }
 
+    public function getPurchasedProductsIDs() {
+        $purchasedProducts = array();
+        $orders = $this->orders;
+        foreach ($orders as $order) {
+            $products = $order->products;
+            foreach ($products as $product) {
+                if (!in_array($product['id'], $purchasedProducts)) {
+                    array_push($purchasedProducts, $product['id']);
+                }
+            }
+        }
+        return $purchasedProducts;
+    }
+
+    public function getReviewedProductsIDs() {
+        $productIDs = array();
+        $productReviews = $this->productReviews;
+        foreach($productReviews as $review) {
+            array_push($productIDs, $review->product['id']);
+        }
+        return $productIDs;
+    }
+
 }

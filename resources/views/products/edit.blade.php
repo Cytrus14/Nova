@@ -1,6 +1,7 @@
 <x-layout>
-    <div>
-    <form method="POST" action="{{'/products/' . $product['id']}}" enctype="multipart/form-data">
+<div class="flex justify-center bg-gray-900 mt-3 ">
+        <div class="overflow-x-auto w-2/3 dark:bg-gray-700 rounded-md">
+    <form method="POST" action="{{'/products/' . $product['id']}}" enctype="multipart/form-data" class="mx-6 my-4">
         @csrf
         @method('PUT')
         <div class="relative z-0 mb-6 w-1/3 group">
@@ -92,8 +93,12 @@
           @foreach ($priceTags as $priceTag)
             <li>
               <div class="flex items-center">
-                  <input name="priceTag" id="{{ $priceTag['value'] }}" type="radio" value="{{ $priceTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                  <label for="{{ $priceTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$priceTag['value']}}</label>
+                @if(strcmp($priceTag['value'], $product->getPriceTag()['value']) == 0)
+                    <input checked name="priceTag" id="{{ $priceTag['value'] }}" type="radio" value="{{ $priceTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                @else
+                    <input name="priceTag" id="{{ $priceTag['value'] }}" type="radio" value="{{ $priceTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                @endif
+                    <label for="{{ $priceTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$priceTag['value']}}</label>
               </div>
             </li>
           @endforeach
@@ -113,7 +118,11 @@
             @foreach ($categoryTags as $categoryTag)
                 <li>
                 <div class="flex items-center">
+                @if(strcmp($categoryTag['value'], $product->getCategoryTag()['value']) == 0)
+                    <input checked name="categoryTag" id="{{ $categoryTag['value'] }}" type="radio" value="{{ $categoryTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                @else
                     <input name="categoryTag" id="{{ $categoryTag['value'] }}" type="radio" value="{{ $categoryTag['value'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                @endif
                     <label for="{{ $categoryTag['value'] }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{$categoryTag['value']}}</label>
                 </div>
                 </li>
@@ -127,11 +136,11 @@
         
         <div class="relative z-0 mb-6 w-1/2">
             <label for="productDescriptionSummary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
-            <textarea name="productDescriptionSummary" type="text" id="productDescriptionSummary" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['descriptionSummary']}}</textarea>
+            <textarea rows=5 name="productDescriptionSummary" type="text" id="productDescriptionSummary" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['descriptionSummary']}}</textarea>
         </div>
         <div class="relative z-0 mb-6 w-1/2">
           <label for="productDescription" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
-          <textarea name="productDescription" type="text" id="productDescription" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['description']}}</textarea>
+          <textarea rows=20 name="productDescription" type="text" id="productDescription" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['description']}}</textarea>
         </div>
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
 
@@ -163,4 +172,5 @@
         </div>
     </div>
     </div>
+</div>
 </x-layout>

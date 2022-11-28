@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -13,6 +14,9 @@ class CheckoutController extends Controller
     }
 
     public function previewOrder(Request $request) {
+        if (!Auth::check()) {
+            abort(403);
+        }
         $validated = $request->validate([
             'selectedAddress' => ['required', 'numeric', 'min:0']
         ]);

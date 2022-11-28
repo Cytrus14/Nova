@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreUserAddressRequest extends FormRequest
 {
@@ -13,8 +14,8 @@ class StoreUserAddressRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: add actual authorization
-        return true;
+        // check if user if logged in
+        return Auth::check();
     }
 
     /**

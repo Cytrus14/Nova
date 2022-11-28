@@ -1,6 +1,6 @@
 <x-layout>
-    <div class="flex justify-center bg-white mt-3 ">
-        <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
+    <div class="flex justify-center bg-gray-900 mt-3 ">
+        <div class="overflow-x-auto w-2/3 dark:bg-gray-700 rounded-md">
         <div class="mx-6">
             <h1 class="mt-6 block mb-2 text-2xl font-medium text-gray-900 dark:text-gray-300">Select a shipping address or add a new one</h1>
             <h1 class="mt-6 block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Your addresses</h1>

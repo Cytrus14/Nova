@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -38,7 +39,6 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
         if (session('productsInCart') != null && session('selectedAddress') != null) {
-
             $productsInCart = session('productsInCart');
 
             foreach($productsInCart as $product) {
@@ -87,6 +87,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        if (!Gate::allows('show-order', $order)) {
+            abort(403);
+        }
+        
         return view("order.show", [
             'order' => $order
         ]);
@@ -113,14 +117,20 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $fields = $request->all();
-        if (array_key_exists('isPaid', $fields) && $fields['isPaid'] == 1) {
+        if (array_key_exists('isPaid', $fields)) {
             $order->isBooked = true;
+        } else {
+            $order->isBooked = false;
         }
-        if (array_key_exists('isShipped', $fields) && $fields['isShipped'] == 1) {
+        if (array_key_exists('isShipped', $fields)) {
             $order->is_shipped = true;
+        } else {
+            $order->is_shipped = false;
         }
-        if (array_key_exists('isCancelled', $fields) && $fields['isCancelled'] == 1) {
+        if (array_key_exists('isCancelled', $fields)) {
             $order->isCancelled = true;
+        } else {
+            $order->isCancelled = false;
         }
 
         $order->save();

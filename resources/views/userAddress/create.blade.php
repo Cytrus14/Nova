@@ -2,7 +2,7 @@
     <div class="flex justify-center bg-white mt-3 ">
         <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
             <form method="POST" action="/userAddresses">
-
+                @csrf
                     <div class="mx-8 mt-3 mb-4 w-auto">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Full name / Company name</label>
                         <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>

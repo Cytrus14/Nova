@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProductCategoryRequest extends FormRequest
 {
@@ -13,8 +14,7 @@ class StoreProductCategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: add actual authorization
-        return true;
+        return Auth::user()->is_admin;
     }
 
     /**
