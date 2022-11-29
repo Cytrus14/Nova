@@ -2,7 +2,7 @@
     <div class="grid place-items-center">
         <!-- <h1 class="text-lg font-semibold text-red-900"> Check out our product </h1> -->
     <div class="w-1/3 mb-6">
-        <form class="flex items-center justify-center" action="">   
+        <form class="flex items-center justify-center" action="/products">   
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

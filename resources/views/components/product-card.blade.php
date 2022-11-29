@@ -36,18 +36,29 @@
     </div>
     <div class="flex space-x-4 text-sm font-medium">
       <div class="flex-auto flex space-x-4">
-        <form method="POST" action="{{'/cart/addProductAndGoToCart/' . $product['id']}}">
-          @csrf
-          <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
-            Buy now
-          </button>
-        </form>
-        <form method="POST" action="{{'/cart/addProduct/' . $product['id']}}">
-          @csrf
-          <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
-            Add to cart
-          </button>
-        </form>
+        @if($product->quantity > 0)
+          <form method="POST" action="{{'/cart/addProductAndGoToCart/' . $product['id']}}">
+            @csrf
+            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+              Buy now
+            </button>
+          </form>
+          <form method="POST" action="{{'/cart/addProduct/' . $product['id']}}">
+              @csrf
+              <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                  Add to cart
+              </button>
+          </form>
+          @else
+            <div class="mb-4">
+                <button class="text-white bg-gray-700 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600">
+                    Buy now
+                </button>
+                <button class="ml-3 text-white bg-gray-700 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600">
+                    Add to cart
+                </button>
+            </div>
+          @endif
       </div>
     </div>
 </div>

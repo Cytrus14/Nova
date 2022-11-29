@@ -44,6 +44,6 @@
 
     <!-- pagination -->
     <div class="mb-6">
-        {{$products->links()}}
+        {{$products->appends(\Request::except('_token'))->render()}}
     </div>
 </div>

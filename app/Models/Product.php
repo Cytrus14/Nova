@@ -105,7 +105,7 @@ class Product extends Model
         if($filters['search'] ?? false) {
             $negativeWords = array();
             $positiveWords = array();
-    
+            
             $words = explode(' ', request('search'));
             foreach($words as $word) {
                 if (str_starts_with($word, '!')) {
@@ -116,18 +116,35 @@ class Product extends Model
                     array_push($positiveWords, $word);
                 }
             }
-    
-            foreach($positiveWords as $positiveWord) {
-                $query->where('name', 'like', '%' . $positiveWord . '%')
-                ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
-                ->orWhere('description', 'like', '%' . $positiveWord . '%');
-            }
+
+            // foreach($positiveWords as $positiveWord) {
+            //     $query = $query->where('name', 'like', '%' . $positiveWord . '%')
+            //     ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
+            //     ->orWhere('description', 'like', '%' . $positiveWord . '%');
+            // }
+
+            // foreach($negativeWords as $negativeWord) {
+            //     $query->where('name', 'not like', '%' . $negativeWord . '%')
+            //     ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
+            //     ->where('description', 'not like', '%' . $negativeWord . '%');
+            // }
+
+            $query->where(function ($q) use ($positiveWords) {
+                foreach($positiveWords as $positiveWord) {
+                    $q->orWhere('name', 'like', '%' . $positiveWord . '%')
+                    ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
+                    ->orWhere('description', 'like', '%' . $positiveWord . '%');
+                }
+            }); 
 
             foreach($negativeWords as $negativeWord) {
-                $query->where('name', 'not like', '%' . $negativeWord . '%')
-                ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
-                ->where('description', 'not like', '%' . $negativeWord . '%');
+                $query->where(function ($q) use ($negativeWord) {
+                    $q->where('name', 'not like', '%' . $negativeWord . '%')
+                    ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
+                    ->where('description', 'not like', '%' . $negativeWord . '%');
+                }); 
             }
+            //dd($query->toSql());
 
         }
 
