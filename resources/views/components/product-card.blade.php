@@ -1,5 +1,5 @@
 <a href="{{ 'products/' . $product['id'] }}">
-<div class="flex font-sans rounded-lg bg-cyan-900 shadow-lg">
+<div class="flex font-sans rounded-lg bg-cyan-900 shadow-lg h-72">
   <div class="flex-none w-72 relative">
     @if($product['thumbnail_path'] != null)
     <img src="{{ 'http://127.0.0.1:8000/storage/' . $product['thumbnail_path'] }}" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />

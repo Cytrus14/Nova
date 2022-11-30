@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['creationDate', 'name', 'quantity', 'descriptionSummary', 'description', 'thumbnail_path', 'isArchived'];
+    protected $fillable = ['creationDate', 'name', 'quantity', 'description_summary', 'description', 'thumbnail_path', 'isArchived'];
     protected $table = 'product';
     protected $appends = 'rating';
 
@@ -100,6 +100,8 @@ class Product extends Model
 
     public function scopeFilter($query, array $filters) {
 
+        //dd(request()->all());
+        
         // negative words (words proceeded by '!') are combined using the AND operator
         // positive words are combine using the OR operator
         if($filters['search'] ?? false) {
@@ -110,42 +112,56 @@ class Product extends Model
             foreach($words as $word) {
                 if (str_starts_with($word, '!')) {
                     $word = ltrim($word, '!');
-                    array_push($negativeWords, $word);
+                    array_push($negativeWords, strtoupper($word));
                 }
                 else {
-                    array_push($positiveWords, $word);
+                    array_push($positiveWords, strtoupper($word));
                 }
             }
 
             // foreach($positiveWords as $positiveWord) {
             //     $query = $query->where('name', 'like', '%' . $positiveWord . '%')
-            //     ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
+            //     ->orWhere('description_summary', 'like', '%' . $positiveWord . '%')
             //     ->orWhere('description', 'like', '%' . $positiveWord . '%');
             // }
 
             // foreach($negativeWords as $negativeWord) {
             //     $query->where('name', 'not like', '%' . $negativeWord . '%')
-            //     ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
+            //     ->where('description_summary', 'not like', '%' . $negativeWord . '%')
             //     ->where('description', 'not like', '%' . $negativeWord . '%');
             // }
-
-            $query->where(function ($q) use ($positiveWords) {
-                foreach($positiveWords as $positiveWord) {
-                    $q->orWhere('name', 'like', '%' . $positiveWord . '%')
-                    ->orWhere('descriptionSummary', 'like', '%' . $positiveWord . '%')
-                    ->orWhere('description', 'like', '%' . $positiveWord . '%');
-                }
-            }); 
-
-            foreach($negativeWords as $negativeWord) {
-                $query->where(function ($q) use ($negativeWord) {
-                    $q->where('name', 'not like', '%' . $negativeWord . '%')
-                    ->where('descriptionSummary', 'not like', '%' . $negativeWord . '%')
-                    ->where('description', 'not like', '%' . $negativeWord . '%');
+            
+            if(request()['descriptionSearch'] != null) {
+                $query->where(function ($q) use ($positiveWords) {
+                    foreach($positiveWords as $positiveWord) {
+                        $q->orWhere(DB::raw('upper(name)'), 'like', '%' . $positiveWord . '%')
+                        ->orWhere(DB::raw('upper(description_summary)'), 'like', '%' . $positiveWord . '%')
+                        ->orWhere(DB::raw('upper(description)'), 'like', '%' . $positiveWord . '%');
+                    }
                 }); 
+                foreach($negativeWords as $negativeWord) {
+                    $query->where(function ($q) use ($negativeWord) {
+                        $q->where(DB::raw('upper(name)'), 'not like', '%' . $negativeWord . '%')
+                        ->where(DB::raw('upper(description_summary)'), 'not like', '%' . $negativeWord . '%')
+                        ->where(DB::raw('upper(description)'), 'not like', '%' . $negativeWord . '%');
+                    }); 
+                }
+
+            } else {
+                $query->where(function ($q) use ($positiveWords) {
+                    foreach($positiveWords as $positiveWord) {
+                        $q->orWhere(DB::raw('upper(name)'), 'like', '%' . $positiveWord . '%')
+                        ->orWhere(DB::raw('upper(description_summary)'), 'like', '%' . $positiveWord . '%');
+                    }
+                }); 
+                foreach($negativeWords as $negativeWord) {
+                    $query->where(function ($q) use ($negativeWord) {
+                        $q->where(DB::raw('upper(name)'), 'not like', '%' . $negativeWord . '%')
+                        ->where(DB::raw('upper(description_summary)'), 'not like', '%' . $negativeWord . '%');
+                    }); 
+                }
             }
             //dd($query->toSql());
-
         }
 
         //filter by product category

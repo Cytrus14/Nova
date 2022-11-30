@@ -18,7 +18,7 @@ return new class extends Migration
             //$table->timestamp('creationDate');
             $table->string('name');
             $table->integer('quantity');
-            $table->longText('descriptionSummary');
+            $table->longText('description_summary');
             $table->longText('description');
             $table->string('thumbnail_path')->nullable();
             $table->boolean('is_archived')->default(false);

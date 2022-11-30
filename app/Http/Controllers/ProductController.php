@@ -87,7 +87,7 @@ class ProductController extends Controller
         $createdProduct = Product::create([
             'name' => $validated['productName'],
             'quantity' => $validated['productQuantity'],
-            'descriptionSummary' => $validated['productDescriptionSummary'],
+            'description_summary' => $validated['productDescriptionSummary'],
             'description' => $validated['productDescription'],
             'thumbnail_path' => $productThumbnailPath
         ]);
@@ -216,7 +216,7 @@ class ProductController extends Controller
 
         $product->name = $validated['productName'];
         $product->quantity = $validated['productQuantity'];
-        $product->descriptionSummary = $validated['productDescriptionSummary'];
+        $product->description_summary = $validated['productDescriptionSummary'];
         $product->description = $validated['productDescription'];
 
         // get the new product's price, process it and store in DB

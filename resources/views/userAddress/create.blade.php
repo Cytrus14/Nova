@@ -1,6 +1,6 @@
 <x-layout>
-    <div class="flex justify-center bg-white mt-3 ">
-        <div class="overflow-x-auto w-1/2 dark:bg-gray-700">
+<div class="flex justify-center bg-gray-900 mt-3 ">
+        <div class="overflow-x-auto w-2/3 dark:bg-gray-700 rounded-md">
             <form method="POST" action="/userAddresses">
                 @csrf
                     <div class="mx-8 mt-3 mb-4 w-auto">

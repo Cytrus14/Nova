@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="mx-6 my-2 text-gray-300 text-justify">
-                            {{ $product->descriptionSummary }}
+                            {{ $product->description_summary }}
                         </div>
 
                         <div class=" grid h-full content-end">
