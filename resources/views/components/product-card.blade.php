@@ -9,15 +9,12 @@
   </div>
   <div class="flex-auto p-6">
     <div class="flex flex-wrap">
-      <h1 class="flex-auto text-lg font-semibold text-gray-300">
-        {{ $product['name'] }}
-        @if (Auth::user() != null && Auth::user()->is_admin)
-          <span class="text-lg font-semibold text-gray-300">#{{ $product['id'] }} </span>
-        @endif
-      </h1>
-      <div class="text-lg font-semibold text-gray-300">
-        {{ $product->getCurrentPriceAttribute() }} €
-      </div>
+        <h1 class="flex-auto text-lg font-semibold text-gray-300">
+          {{ $product['name'] }}
+          @if (Auth::user() != null && Auth::user()->is_admin)
+            <span class="text-lg font-semibold text-gray-300">#{{ $product['id'] }} </span>
+          @endif
+        </h1>
       <div class="w-full">
         <x-star-rating :rating="number_format((float)$product->getAverageProductRating(),2)"></x-star-rating>
       </div>
@@ -31,9 +28,13 @@
         </div>
         @endif
     </div>
-    <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-gray-300 text-gray-300">
-        {{ $product['descriptionSummary'] }}
-    </div>
+    @if(strlen($product['name']) <= 26)
+      <div class="flex-auto text-lg font-semibold text-gray-300"><br/></div>
+    @endif
+    <div class="my-4 text-3xl font-semibold text-gray-300">
+          {{ $product->getCurrentPriceAttribute() }} €
+      </div>
+    <div class="flex items-baseline mb-4 border-b border-gray-300 text-gray-300 text-justify"></div>
     <div class="flex space-x-4 text-sm font-medium">
       <div class="flex-auto flex space-x-4">
         @if($product->quantity > 0)

@@ -137,6 +137,9 @@
         <div class="relative z-0 mb-6 w-1/2">
             <label for="productDescriptionSummary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>
             <textarea rows=5 name="productDescriptionSummary" type="text" id="productDescriptionSummary" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$product['descriptionSummary']}}</textarea>
+            @error('productDescriptionSummary')
+                <p class="text-red-500 text-xs mt-1"> {{ $message }}<p>
+            @enderror
         </div>
         <div class="relative z-0 mb-6 w-1/2">
           <label for="productDescription" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Product description</label>

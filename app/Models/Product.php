@@ -42,7 +42,7 @@ class Product extends Model
     // Get the current product price (the most recent one) formatted as a string
     public function getCurrentPriceAttribute() {
         $price = $this->productPrices->sortByDesc('created_at')->first();
-        if ($price->priceCents % 10 != 0)
+        if ($price->priceCents > 9)
             return $price->priceEuros . '.' . $price->priceCents;
         else
             return $price->priceEuros . '.' . '0' . $price->priceCents;

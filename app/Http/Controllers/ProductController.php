@@ -24,9 +24,33 @@ class ProductController extends Controller
      */
     public function index()
     {
+        // return view('products.index', [
+        //     'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10)
+        // ]);
+        
+
+        //dd(request()->all());
+
+        if(request('order') == 0) {
+            $products = Product::orderByDesc(ProductPrice::select('priceEuros')->whereColumn('product_price.product_id', 'product.id')
+                ->latest()->take(1))->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10);
+        }
+        elseif(request('order') == 1) {
+            $products = Product::orderBy(ProductPrice::select('priceEuros')->whereColumn('product_price.product_id', 'product.id')
+                ->latest()->take(1))->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10);
+        }
+        elseif(request('order') == 2) {
+            $products = Product::where('is_archived', '=', 'false')->filter(request(['search', 'category']))->orderBy('created_at', 'ASC')->paginate(10);
+        }
+        else {
+            $products = Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10);
+        }
+
+
         return view('products.index', [
-            'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10)
+            'products' => $products
         ]);
+
     }
 
     /**
@@ -78,6 +102,12 @@ class ProductController extends Controller
         } else {
             $priceEuros = $price[0];
         }
+
+        if (strlen($priceCents) == 1) {
+            $priceCents = (int) $priceCents;
+            $priceCents *= 10;
+        }
+
         ProductPrice::create([
             'priceEuros' => $priceEuros,
             'priceCents' => $priceCents,
@@ -181,13 +211,13 @@ class ProductController extends Controller
             }
             // Set the new thumbnail
             $productThumbnailPath = $request->file('productThumbnail')->store('productThumbnails', 'public');
+            $product->thumbnail_path = $productThumbnailPath;
         }
 
         $product->name = $validated['productName'];
         $product->quantity = $validated['productQuantity'];
         $product->descriptionSummary = $validated['productDescriptionSummary'];
         $product->description = $validated['productDescription'];
-        $product->thumbnail_path = $productThumbnailPath;
 
         // get the new product's price, process it and store in DB
         $price = explode('.', $validated['productPrice']);
@@ -199,6 +229,12 @@ class ProductController extends Controller
         } else {
             $priceEuros = $price[0];
         }
+
+        if (strlen($priceCents) == 1) {
+            $priceCents = (int) $priceCents;
+            $priceCents *= 10;
+        }
+        
         ProductPrice::create([
             'priceEuros' => $priceEuros,
             'priceCents' => $priceCents,

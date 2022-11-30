@@ -25,10 +25,10 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'productName' => 'required',
+            'productName' => array('required', 'max:56'),
             'productPrice' => array('required', 'regex:/^\d+(\.)?(\d){0,2}$/'),
             'productQuantity' => array('required', 'regex:/^\d+$/'),
-            'productDescriptionSummary' => '',
+            'productDescriptionSummary' => 'max:400',
             'productDescription' => '',
             'productCategories' => array('required', 'min:1'),
             'priceTag' => 'required',

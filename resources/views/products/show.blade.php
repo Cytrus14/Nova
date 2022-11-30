@@ -79,7 +79,7 @@
                                         {{ $product->getCurrentPriceAttribute() }} €
                             </div>
                         </div>
-                        <div class="mx-6 my-2 text-gray-300">
+                        <div class="mx-6 my-2 text-gray-300 text-justify">
                             {{ $product->descriptionSummary }}
                         </div>
 
