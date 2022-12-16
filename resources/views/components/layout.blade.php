@@ -103,7 +103,11 @@
             </nav>
         </div>
         <!-- main content -->
-        <div>
+        <!-- a handy css style that prevents the site from being displayed before it's initialized -->
+        <style>
+            [x-cloak] { display: none }
+        </style>
+        <div x-data x-cloak>
             {{$slot}}
         </div>
         <!-- empty space filler -->
