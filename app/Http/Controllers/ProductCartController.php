@@ -62,7 +62,7 @@ class ProductCartController extends Controller
         // if there is only one product in the cart
         if (count($productsInCart) == 1) {
             session()->forget('productsInCart');
-            return redirect()->back();
+            return redirect('/cart/show');
         }
         // if there are more products in the cart
         $IDToRemove = -1;
