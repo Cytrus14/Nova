@@ -97,7 +97,7 @@ class ProductCartController extends Controller
                 }
             }
         }
-        return redirect()->back();
+        return redirect('/cart/show');
     }
 
     public function decreaseProductQuantity($id) {
@@ -115,7 +115,7 @@ class ProductCartController extends Controller
                 }
             }
         }
-        return redirect()->back();
+        return redirect('/cart/show');
     }
 
     public function goBack() {

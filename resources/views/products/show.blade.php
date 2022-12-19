@@ -209,7 +209,7 @@
                         @endphp
                         <div class="mx-6" x-data="{showReviewEditor: $persist(0)}">
                             <div x-show="showReviewEditor == 0">
-                                <h1 class="mt-6 block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">You already reviewed this product</h1>
+                                <h1 class="mt-6 block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">You've already reviewed this product</h1>
                                 <button type="button" x-on:click="showReviewEditor = 1" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Review</button>
                             </div>
                             <div x-show="showReviewEditor == 1">

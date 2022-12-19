@@ -51,7 +51,7 @@
 
   <!-- category dropdown menu -->
   <div id="categoryDropdown" class="hidden z-10 w-60 bg-white rounded shadow dark:bg-gray-700" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 15085px);" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom">
-      <div class="p-3">
+      <!-- <div class="p-3">
         <label for="input-group-search" class="sr-only">Search</label>
         <div class="relative">
           <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -59,7 +59,7 @@
           </div>
           <input type="text" id="input-group-search" class="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search category">
         </div>
-      </div>
+      </div> -->
       <ul class="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="categoryDropdownButton">
       @foreach ($productCategories as $productCategory )
         <li>
@@ -74,9 +74,9 @@
         </li>
       @endforeach
       </ul>
-      <a class="flex items-center p-3 text-sm font-medium text-blue-600 bg-gray-50 border-t border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline" data-modal-toggle="addProductCategoryModal">
+      <!-- <a class="flex items-center p-3 text-sm font-medium text-blue-600 bg-gray-50 border-t border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline" data-modal-toggle="addProductCategoryModal">
         Add new category
-    </a>
+    </a> -->
   </div>
 
   <div class="mb-4">

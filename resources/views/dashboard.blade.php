@@ -66,11 +66,16 @@
                     <p class="mt-3 font-semibold text-gray-900 dark:text-gray-300">E-mail:</p>
                     <p class="text-gray-900 dark:text-gray-300">{{Auth::user()->email}}</p>
 
-
-                    <form method="GET" action="{{'users/' . Auth::user()->id . '/edit' }}">
+                    <div class="flex-auto flex space-x-4">
+                    <form method="GET" action="{{'users/' . Auth::user()->id . '/edit' }}" class="max-w-fit px-0">
                         @csrf
-                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</button>
+                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit profile</button>
                     </form>
+                    <form method="GET" action="/users/showPasswordFrom" class="max-w-fit px-0">
+                        @csrf
+                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Change password</button>
+                    </form>
+                    </div>
 
                 </div>
 
@@ -120,10 +125,14 @@
                                         #{{ $order['id'] }}
                                     </th>
                                     <td class="py-2 px-6">
-                                        @if ($order['isBooked'])
+                                        @if (!$order['isBooked'] && !$order['isCancelled'] && !$order['is_shipped'])
+                                            Awaiting payment
+                                        @elseif ($order['is_shipped'] && !$order['isCancelled'])
+                                            Shipped
+                                        @elseif ($order['isBooked'] && !$order['isCancelled'])
                                             Paid
                                         @else
-                                            Awaiting Payment 
+                                            Cancelled
                                         @endif
                                     </td>
                                     <td class="py-2 px-6">

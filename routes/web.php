@@ -38,6 +38,9 @@ Route::get('/home', function(){
     ]);
 });
 
+Route::get('/users/showPasswordFrom', [UserController::class, 'showPasswordFrom']);
+Route::post('/users/changePassword', [UserController::class, 'changePassword']);
+
 Route::resources([
     'productCategories' => ProductCategoryController::class,
     'products' => ProductController::class,

@@ -45,12 +45,17 @@
                     @endif
                     </tbody>
                 </table>
+                <div class="flex place-content-end">
                 <h1 class="mx-2 my-6 flex-auto text-lg font-bold dark:text-gray-400 dark:bg-gray-700">Total: €{{ $totalOrderValue }}</h1>
 
-                <form method="POST" action="/orders">
+                    <form method="POST" action="/orders">
                         @csrf
-                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Confirm order</button>
+                        <div class="mt-2 flex-auto flex space-x-4">
+                        <a href="/checkout/proceed"><button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Go back</button></a>
+                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Confirm order</button>
+                        </div>
                     </form>
+                </div>
                 </div>
             </div>
         </div>
