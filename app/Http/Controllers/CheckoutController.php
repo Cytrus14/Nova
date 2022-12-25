@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class CheckoutController extends Controller
 {
     public function proceedToCheckout() {
-        // dd(session('productQuantities'));
         return view('checkout.selectAddress');
     }
 

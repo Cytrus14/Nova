@@ -54,7 +54,7 @@ class OrderController extends Controller
 
             $createdOrder = Order::create([
                 'user_id' => $request->user()['id'],
-                'isBooked' => true,
+                'isBooked' => false,
                 'isCancelled' => false,
                 'user_address_id' => session('selectedAddress')['id']
             ]);
@@ -65,7 +65,7 @@ class OrderController extends Controller
             }
 
 
-            // removing all product and order confirmation prevents the user for placing new orders each
+            // removing all product and order confirmation prevents the user for placing new orders on each
             // page refresh
             session()->forget('productsInCart');
             session()->forget('selectedAddress');

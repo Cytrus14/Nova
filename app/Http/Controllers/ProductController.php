@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductPrice;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductReview;
 use App\Models\RecommendationTag;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
@@ -24,13 +21,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // return view('products.index', [
-        //     'products' => Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10)
-        // ]);
-        
-
-        //dd(request()->all());
-
         if(request('order') == 0) {
             $products = Product::orderByDesc(ProductPrice::select('priceEuros')->whereColumn('product_price.product_id', 'product.id')
                 ->latest()->take(1))->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10);
@@ -46,11 +36,9 @@ class ProductController extends Controller
             $products = Product::latest()->where('is_archived', '=', 'false')->filter(request(['search', 'category']))->paginate(10);
         }
 
-
         return view('products.index', [
             'products' => $products
         ]);
-
     }
 
     /**
@@ -74,7 +62,6 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //dd($request->all());
         $validated = $request->validated();
 
         // handle the product thumbnail
@@ -143,7 +130,6 @@ class ProductController extends Controller
             }
         }
 
-
         return redirect('/products');
     }
 
@@ -173,7 +159,7 @@ class ProductController extends Controller
         if (!Gate::allows('isAdmin')) {
             abort(403);
         }
-        // dd(ProductCategory::all()->toArray());
+
         $productCategories = $product->productCategories->toArray();
         $productCategoriesIDs = array();
         foreach($productCategories as $productCategory) {

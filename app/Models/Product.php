@@ -99,9 +99,6 @@ class Product extends Model
     }
 
     public function scopeFilter($query, array $filters) {
-
-        //dd(request()->all());
-        
         // negative words (words proceeded by '!') are combined using the AND operator
         // positive words are combine using the OR operator
         if($filters['search'] ?? false) {
@@ -118,18 +115,6 @@ class Product extends Model
                     array_push($positiveWords, strtoupper($word));
                 }
             }
-
-            // foreach($positiveWords as $positiveWord) {
-            //     $query = $query->where('name', 'like', '%' . $positiveWord . '%')
-            //     ->orWhere('description_summary', 'like', '%' . $positiveWord . '%')
-            //     ->orWhere('description', 'like', '%' . $positiveWord . '%');
-            // }
-
-            // foreach($negativeWords as $negativeWord) {
-            //     $query->where('name', 'not like', '%' . $negativeWord . '%')
-            //     ->where('description_summary', 'not like', '%' . $negativeWord . '%')
-            //     ->where('description', 'not like', '%' . $negativeWord . '%');
-            // }
             
             if(request()['descriptionSearch'] != null) {
                 $query->where(function ($q) use ($positiveWords) {
@@ -161,7 +146,6 @@ class Product extends Model
                     }); 
                 }
             }
-            //dd($query->toSql());
         }
 
         //filter by product category

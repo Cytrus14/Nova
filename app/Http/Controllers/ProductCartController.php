@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use stdClass;
-use Illuminate\Support\Facades\Gate;
 
 class ProductCartController extends Controller
 {
     public function addProduct($id) {
         $existingProduct = null;
+        $productInDB = Product::where('id', '=', $id)->first();
         $products = session('productsInCart');
         if ($products != null) {
             foreach($products as $product) {
@@ -22,15 +21,18 @@ class ProductCartController extends Controller
         }
 
         if ($existingProduct == null) {
-            $product = new stdClass;
-            $product->id = $id;
-            $product->quantity = 1;
-            session()->push('productsInCart', $product);
+            if ($productInDB->quantity > 0) {
+                $product = new stdClass;
+                $product->id = $id;
+                $product->quantity = 1;
+                session()->push('productsInCart', $product);
+            }
         } else {
-            $existingProduct->quantity++;
+            if ($productInDB->quantity > $existingProduct->quantity) {
+                $existingProduct->quantity++;
+            }
         }
 
-        // dd(session('productsInCart'));
         return redirect()->back();
     }
 

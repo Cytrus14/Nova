@@ -348,11 +348,9 @@
                         <x-product-review :review='$review'></x-product-review>
                     @endforeach
                     </div>
-                    <div class="mb-6">
-                        {{$reviews->links()}}
-                    </div>
-
-
+                        <div class="mb-6">
+                            {{$reviews->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

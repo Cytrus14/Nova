@@ -14,7 +14,6 @@ class UpdateProductReviewRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: add actual authorization
         return Auth::check();
     }
 

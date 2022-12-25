@@ -120,20 +120,6 @@ class ProductRecommendations extends Component
             // recommend no more than 6 products
             $recommendedProducts = $recommendedProducts->slice(0, 6);
             $this->recommendedProducts = $recommendedProducts;
-
-            // // All hail the glorious query
-            // $recommendedProducts = Product::whereRelation('recommendationTags', function($query) {
-            //     $query->where('value', '=', 'telescope-accessories')->orWhere('value', '=', 'universal-accessories')
-            //         ->orWhere('value', '=', 'binoculars-accessories');
-            // })->whereRelation('recommendationTags','value', '=', 'high')->where('quantity', '>', 0)
-            // ->get();
-
-            
-            // foreach($recommendedProducts as $product) {
-            //     dd($product->getAverageProductRating());
-            // }
-
-            // dd($recommendedProducts);
         } else {
             // if the costumer is not logged in don't recommend anything
             $this->recommendedProducts == null;

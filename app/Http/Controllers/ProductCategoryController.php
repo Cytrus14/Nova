@@ -37,11 +37,6 @@ class ProductCategoryController extends Controller
     public function store(StoreProductCategoryRequest $request)
     {
         //
-        // $validated = $request->validated();
-        // ProductCategory::create([
-        //     'categoryName' => $validated['categoryName']
-        // ]);
-        // return redirect('/home');
     }
 
     /**

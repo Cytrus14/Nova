@@ -1,7 +1,6 @@
 <article class="my-4 border-2 border-blue-500 rounded-md">
     <div class="mx-6 my-3">
     <div class="flex items-center mb-3 space-x-4">
-        <!-- <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt=""> -->
         <div class="space-y-1 font-medium dark:text-white">
             {{$review->user['username']}}
         </div>

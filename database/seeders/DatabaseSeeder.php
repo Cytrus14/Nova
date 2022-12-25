@@ -16,12 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(50)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        
-
         // This code creates entires that should be present by default (in production)
         // Default product categories
         \App\Models\ProductCategory::factory()->create([

@@ -9,8 +9,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
-use App\Models\Product;
-use App\Models\ProductCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function(){
-    return view('homePage',[
-        // 'products' => Product::with('productPrices')->get(),
-        // 'productCategories' => ProductCategory::all()
-    ]);
+    return view('homePage');
 });
 
 Route::get('/users/showPasswordFrom', [UserController::class, 'showPasswordFrom']);
@@ -50,11 +45,6 @@ Route::resources([
     'orders' => OrderController::class
 ]);
 
-
-// Route::post('cart', function () {
-//     dd("test");
-//     return view('welcome');
-// });
 
 // routes for handling the shopping cart
 Route::controller(ProductCartController::class)->group(function () {

@@ -14,7 +14,6 @@ class StoreUserAddressRequest extends FormRequest
      */
     public function authorize()
     {
-        // check if user if logged in
         return Auth::check();
     }
 
